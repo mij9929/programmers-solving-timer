@@ -1,0 +1,14 @@
+# Editor
+.vscode/
+.idea/
+
+# Dependencies
+node_modules/
+
+# Extension build files
+*.zip
+*.crx
+
+# OS
+.DS_Store
+Thumbs.db

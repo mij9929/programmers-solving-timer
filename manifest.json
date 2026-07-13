@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "Programmers Solving Timer",
+  "version": "0.1.0",
+  "description": "프로그래머스 문제 풀이 시간을 측정합니다.",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://school.programmers.co.kr/learn/courses/*/lessons/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "css": [
+        "content.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}
