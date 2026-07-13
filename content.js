@@ -13,6 +13,21 @@ function getProblemIdFromUrl() {
   return match ? match[1] : null;
 }
 
+function saveElapsedTime() {
+    if(problemId === null){
+        return;
+    } 
+
+    const storageKey = `problem-${problemId}`;
+
+    chrome.storage.local.set({
+        [storageKey] : {
+            elapsedTime : elapsedTime
+        }
+    });
+    
+}
+
 function createTimer() {
   const timerBox = document.createElement("div");
   timerBox.id = "programmers-timer";
@@ -61,7 +76,9 @@ function pauseTimer() {
 
   elapsedTime += Date.now() - startedAt;
   startedAt = null;
-
+  
+  saveElapsedTime();
+  
   clearInterval(timerInterval);
   renderTime();
 }
