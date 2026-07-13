@@ -2,7 +2,16 @@ let startedAt = null;
 let elapsedTime = 0;
 let timerInterval = null;
 
+const problemId = getProblemIdFromUrl();
+console.log("[Programmers Timer] Problem ID:", problemId);
+
 createTimer();
+
+function getProblemIdFromUrl() {
+  const match = window.location.pathname.match(/\/lessons\/(\d+)/);
+
+  return match ? match[1] : null;
+}
 
 function createTimer() {
   const timerBox = document.createElement("div");
