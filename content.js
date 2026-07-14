@@ -164,6 +164,7 @@ function observeCorrectAnswer() {
         }
 
         correctAnswerDetected = true;
+        pauseTimer();
         console.log("[Programmers Timer] Correct answer detected");
     });
 
