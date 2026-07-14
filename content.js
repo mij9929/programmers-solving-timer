@@ -23,7 +23,9 @@ function saveElapsedTime() {
 
     chrome.storage.local.set({
         [storageKey] : {
-            elapsedTime : elapsedTime
+            elapsedTime : elapsedTime,
+            startedAt : startedAt,
+            isRunning : startedAt !== null
         }
     });
     
@@ -64,7 +66,7 @@ function startTimer() {
   }
 
   startedAt = Date.now();
-
+  saveElapsedTime();
   timerInterval = setInterval(() => {
     renderTime();
   }, 1000);
@@ -77,7 +79,6 @@ function pauseTimer() {
 
   elapsedTime += Date.now() - startedAt;
   startedAt = null;
-  
   saveElapsedTime();
 
   clearInterval(timerInterval);
@@ -134,6 +135,15 @@ function loadElapsedTime() {
         }
 
         elapsedTime = savedData.elapsedTime;
+        if(savedData.isRunning && savedData.startedAt !== null) {
+            startedAt = savedData.startedAt;
+            timerInterval = setInterval(() => {
+            renderTime();
+        }, 1000);
+        }
+
         renderTime();
+
+        
     })
 }
