@@ -6,6 +6,7 @@ const problemId = getProblemIdFromUrl();
 console.log("[Programmers Timer] Problem ID:", problemId);
 
 createTimer();
+loadElapsedTime();
 
 function getProblemIdFromUrl() {
   const match = window.location.pathname.match(/\/lessons\/(\d+)/);
@@ -78,7 +79,7 @@ function pauseTimer() {
   startedAt = null;
   
   saveElapsedTime();
-  
+
   clearInterval(timerInterval);
   renderTime();
 }
@@ -86,6 +87,7 @@ function pauseTimer() {
 function resetTimer() {
   startedAt = null;
   elapsedTime = 0;
+  saveElapsedTime();
 
   clearInterval(timerInterval);
   renderTime();
@@ -115,4 +117,23 @@ function renderTime() {
 
 function pad(number) {
   return String(number).padStart(2, "0");
+}
+
+function loadElapsedTime() {
+    if(problemId == null) {
+        return;
+    }
+
+    const storageKey = `problem-${problemId}`;
+
+    chrome.storage.local.get(storageKey, (result) => {
+        const savedData = result[storageKey];
+
+        if(!savedData) {
+            return;
+        }
+
+        elapsedTime = savedData.elapsedTime;
+        renderTime();
+    })
 }
