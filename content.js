@@ -7,6 +7,7 @@ console.log("[Programmers Timer] Problem ID:", problemId);
 
 createTimer();
 loadElapsedTime();
+observeCorrectAnswer();
 
 function getProblemIdFromUrl() {
   const match = window.location.pathname.match(/\/lessons\/(\d+)/);
@@ -143,7 +144,31 @@ function loadElapsedTime() {
         }
 
         renderTime();
-
-        
     })
+}
+
+function isCorrectAnswerDisplayed() {
+    const modalTitles = document.querySelectorAll(".modal-title");
+
+    return Array.from(modalTitles).some((title) => {
+        return title.textContent.trim() === "정답입니다!";
+    });
+}
+
+function observeCorrectAnswer() {
+    let correctAnswerDetected = false;
+
+    const observer = new MutationObserver(() => {
+        if(correctAnswerDetected || !isCorrectAnswerDisplayed()) {
+            return;
+        }
+
+        correctAnswerDetected = true;
+        console.log("[Programmers Timer] Correct answer detected");
+    });
+
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
 }
